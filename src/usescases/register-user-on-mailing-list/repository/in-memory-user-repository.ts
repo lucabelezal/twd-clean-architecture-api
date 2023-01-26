@@ -25,7 +25,6 @@ export class InMemoryUserRepository implements UserRepository {
   }
 
   async exists (user: UserData): Promise<boolean> {
-    const isExistingUser = await this.findUserByEmail(user.email) != null
-    return !!isExistingUser
+    return await this.findUserByEmail(user.email) != null
   }
 }
