@@ -1,5 +1,5 @@
-import { InMemoryUserRepository } from '@/usescases/register-user-on-mailing-list/repository/in-memory-user-repository'
-import { createEmptyUsersDataDummy, createUserDummy, createUsersDataDummy } from '@test/usescases/test-doubles/dummies/users-data-dummy'
+import { InMemoryUserRepository } from '@/usecases/register-user-on-mailing-list/repository'
+import { createEmptyUsersDataDummy, createUsersDataDummy, createUserDummy } from './test-doubles/dummies/users-data-dummy'
 
 describe('InMemoryUserRepository', () => {
     /* eslint-disable no-unused-vars */

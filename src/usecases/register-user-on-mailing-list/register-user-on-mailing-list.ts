@@ -1,7 +1,6 @@
-import { User } from '@/entities/user'
-import { UserData } from '@/entities/user-data'
-import { UseCase } from '../ports/use-case'
-import { UserRepository } from './ports/user-repository'
+import { User, UserData } from '@/entities'
+import { UserRepository } from '@/usecases/register-user-on-mailing-list/ports'
+import { UseCase } from '@/usecases/ports'
 
 export class RegisterUserOnMailingList implements UseCase {
   private readonly userRepo: UserRepository
