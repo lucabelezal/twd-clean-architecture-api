@@ -4,3 +4,4 @@ coverage
 globalConfig.json
 todo
 .env
+.DS_Store
