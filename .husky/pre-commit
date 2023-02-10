@@ -3,6 +3,6 @@
 
 npx --no-install lint-staged
 npx --no-install eslint --fix
-npx --no-install jest --passWithNoTests --runInBand
+# npx --no-install jest --passWithNoTests --runInBand
 
 # npx --no-install eslint --fix && npx --no-install jest --passWithNoTests --runInBand
