@@ -2,29 +2,32 @@ import { UserRepository } from '@/usecases/register-user-on-mailing-list/ports'
 import { UserData } from '@/entities'
 
 export class InMemoryUserRepository implements UserRepository {
-  private users: UserData[]
+  private repository: UserData[]
 
-  constructor (users: UserData[]) {
-    this.users = users
+  constructor (repository: UserData[]) {
+    this.repository = repository
   }
 
   async add (user: UserData): Promise<void> {
-    const isExistingUser = await this.exists(user)
-    if (!isExistingUser) {
-      this.users.push(user)
+    const exists = await this.exists(user)
+    if (!exists) {
+      this.repository.push(user)
     }
   }
 
   async findUserByEmail (email: string): Promise<UserData> {
-    const userFound = this.users.find(user => user.email === email)
-    return userFound || null
+    const found = this.repository.find(user => user.email === email)
+    return found || null
   }
 
   async findAllUsers (): Promise<UserData[]> {
-    return this.users
+    return this.repository
   }
 
   async exists (user: UserData): Promise<boolean> {
-    return await this.findUserByEmail(user.email) != null
+    if (await this.findUserByEmail(user.email) === null) {
+      return false
+    }
+    return true
   }
 }

@@ -2,7 +2,7 @@ import { UserData } from '@/entities'
 import { UseCase } from '@/usecases/ports'
 import { HttpRequest, HttpResponse } from '@/web-controllers/ports'
 import { badRequest, ok, serverError } from '@/web-controllers/util'
-import { MissingParamError } from '@/web-controllers/errors'
+import { MissingParamError } from './errors/missing-param-error'
 
 export class RegisterAndSendEmailController {
   private readonly usecase: UseCase

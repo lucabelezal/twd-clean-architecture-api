@@ -3,7 +3,7 @@ import { InvalidEmailError, InvalidNameError } from '@/entities/errors'
 import { UseCase } from '@/usecases/ports'
 import { RegisterUserOnMailingList } from '@/usecases/register-user-on-mailing-list'
 import { UserRepository } from '@/usecases/register-user-on-mailing-list/ports'
-import { MissingParamError } from '@/web-controllers/errors'
+import { MissingParamError } from '@/web-controllers/errors/missing-param-error'
 import { HttpRequest, HttpResponse } from '@/web-controllers/ports'
 import { RegisterAndSendEmailController } from '@/web-controllers/register-user-controller'
 import { InMemoryUserRepository } from '@/usecases/register-user-on-mailing-list/repository'
@@ -33,7 +33,7 @@ const mailOptions: EmailOptions = {
   password: 'test',
   from: fromName + ' ' + fromEmail,
   to: toName + '<' + toEmail + '>',
-  subject,
+  subject: subject,
   text: emailBody,
   html: emailBodyHtml,
   attachments: attachment
@@ -45,20 +45,22 @@ class MailServiceStub implements EmailService {
   }
 }
 
-class ErrorThrowingUseCaseStub implements UseCase {
-  perform (request: any): Promise<void> {
-    throw Error()
-  }
-}
-
 describe('Register user web controller', () => {
   const users: UserData[] = []
   const repo: UserRepository = new InMemoryUserRepository(users)
   const registerUseCase: RegisterUserOnMailingList = new RegisterUserOnMailingList(repo)
   const mailServiceStub = new MailServiceStub()
   const sendEmailUseCase: SendEmail = new SendEmail(mailOptions, mailServiceStub)
-  const registerAndSendEmailUseCase: RegisterAndSendEmail = new RegisterAndSendEmail(registerUseCase, sendEmailUseCase)
+  const registerAndSendEmailUseCase: RegisterAndSendEmail =
+    new RegisterAndSendEmail(registerUseCase, sendEmailUseCase)
   const controller: RegisterAndSendEmailController = new RegisterAndSendEmailController(registerAndSendEmailUseCase)
+
+  class ErrorThrowingUseCaseStub implements UseCase {
+    perform (request: any): Promise<void> {
+      throw Error()
+    }
+  }
+
   const errorThrowingUseCaseStub: UseCase = new ErrorThrowingUseCaseStub()
 
   test('should return status code ok when request contains valid user data', async () => {
